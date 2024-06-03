@@ -1,113 +1,185 @@
-import Image from "next/image";
+import { verify } from "crypto";
 
 export default function Home() {
+  let name = 'hello world';
+  let firstName:string = 'nune';
+  let age:number = 20;
+  let isActive:boolean = true;
+  let response: any;
+  //array
+  let num: number[] = [0,0,0]
+  let nameList: Array<string> = ['Nune','jelly']; 
+  let person: [string,number] = ['Nune',19]   //tuple
+
+  //enum 0 -> 1 -> 2 
+  enum Status{ NotVerify, Pending, Verify}
+  let status: Status = Status.NotVerify;
+  let person2: [string , Status] = ['Nune',Status.Verify];
+
+  let idCard: number| undefined | null = 99;
+  if(idCard != null){}
+
+  //interface
+  // model ของข้างในมีอะไรบ้าง
+  interface A { name:string};
+  interface B { job: string};
+  let joblessNameA: A = {name: 'nune'};
+  let joblessNameB: B = {job: 'dev'};
+
+  //extent
+  let joblessNameC: A & B = { name: 'nune',job: "dev"}
+
+  //class OOP
+  class Animal {
+    species: string;
+    name: string;
+    constructor(species:string,name:string){
+      //constructor เอาค่ามา assign ให้ตัวมัน
+      this.species = species,
+      this.name =name;
+      this.welcome()
+    }
+    // every time when use this class will be use this function
+    private welcome(){
+      console.log(`welcome new animal ${this.name}`)
+    }
+    run(){ 
+      this.welcome()
+      console.log(`this ${this.species} is running`)
+    
+    }
+    eat(){
+      console.log(`this ${this.name} is eating`)
+    }
+  }
+  //สำหรับกำหนดด type ให้ A
+  interface Animal {
+    species: string;
+    name: string;
+  }
+  let A:Animal = new Animal('cat','Nune');
+  let B:Animal = new Animal('cat','Jelly');
+  A.name
+  let C:Animal = new Animal('rabbit','Leo');
+
+  console.log(A.name);
+  console.log(B.name);
+  A.run()
+  B.eat()
+
+
+  //generic type -> dynamic type
+  function verifyEmail<T>(arg: T): T {
+    return arg
+  }
+
+    //ไม่ค่อยใช้
+  let verification = verifyEmail<string>('nune');
+  
+  //class extends with other class
+  class Person{
+    name: string;
+    gender: string;
+    idCard: string;
+    constructor(name:string, gender:string,idCard:string){
+      this.name = name,
+      this.gender = gender,
+      this.idCard =idCard
+      this.born()
+    }
+    born(){
+      console.log(`new person was boen named ${this.name}`)
+    }
+  }
+  class Employee extends Person{
+      position: string
+      constructor(position:string,name:string,gender:string,idCard:string){
+        super(name,gender,idCard),
+        this.position = position
+      }
+  }
+  let personA01 = new Person('Nune','F','123')
+  let employee = new Employee('dev','Nune','F','123')
+
+  //operator ( + - * / () % ++ --)
+  let a: number = 5;
+  let b: number = 5;
+  console.log(a + b);
+  console.log(a - b);
+  console.log(a * b);
+  console.log(a / b);
+  console.log(a % b);
+  console.log((a + b) + a);
+  console.log(a++); //show before +
+  console.log(++a); // + before show
+  console.log(--a);
+  console.log(a--);
+
+  //quality  == , ===
+  if(a == b){
+    console.log(`I'm here`)
+  }
+  // console.log('' == 0) //TRUE
+  // console.log(0 == '') //TRUE
+  // console.log(0 == '0') //TRUE
+
+  // console.log(0 == null) 
+  // console.log('' == null)
+  // console.log('' == null)
+
+  // console.log('0' == false)
+  // console.log(false == 'false')
+
+  // console.log(false == undefined)
+  // console.log(false == null)
+  // console.log(null == undefined)
+
+    let isVerify:boolean = true;
+    let isAuth:boolean = true;
+    let havePermission:boolean = true;
+    let ageMRT20:boolean = false;
+
+//if else
+    let ageNune = 20;
+    if(ageNune > 18){
+      console.log(`nune ${ageNune}`);
+    } else if(ageNune === 18)
+{console.log(`nune ${ageNune}`)
+    } else {
+      console.log(`nune ${ageNune}`)
+    }
+
+    havePermission && isAuth ? console.log('yeah'): 'noooo';
+    
+// switch case
+    let x = 'nune';
+    switch (x){
+      case 'nune':
+        console.log('nune');
+        break;
+      case 'jelly':
+        console.log('jelly')
+        break;
+      default:
+        console.log('no one')
+        break;
+    }
+
+
+    const add = (x:number, y:number) =>{
+      return x+y;
+    }
+
+    const multiply = (x:number,y:number) => x*y
+
+    console.log(add(1,8))
+    console.log(multiply(1,8))
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
+    <>
+        <div>{(isVerify && isAuth && havePermission || ageMRT20)&&`nune`}</div>
+        <div>{havePermission && isAuth ?`yeah`: `noooo`}</div>
+    </>
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
   );
 }
